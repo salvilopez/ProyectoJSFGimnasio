@@ -1,0 +1,36 @@
+
+t
+java:S2293<"YReplace the type specification in this constructor call with the diamond operator ("<>").(Â«ÒÂÿÿÿÿÿ
+p
+java:S2293‘"YReplace the type specification in this constructor call with the diamond operator ("<>").(şÖ¸Ø
+p
+java:S2293ÿ"YReplace the type specification in this constructor call with the diamond operator ("<>").(şÖ¸Ø
+Z	java:S112("FDefine and throw a dedicated exception instead of using a generic one.(ô°‡
+Œ
+java:S1192ƒ"pDefine a constant instead of duplicating this literal " since its nombreUsuario field is not nullable." 3 times.(®Ê§ùÿÿÿÿ
+h
+java:S3776q"RRefactor this method to reduce its Cognitive Complexity from 51 to the 15 allowed.(Ùàîâ
+p
+java:S2293™"YReplace the type specification in this constructor call with the diamond operator ("<>").(Åªò–
+[	java:S112q"FDefine and throw a dedicated exception instead of using a generic one.(Ùàîâ
+p
+java:S2293‰"YReplace the type specification in this constructor call with the diamond operator ("<>").(şÖ¸Ø
+t
+java:S2293B"YReplace the type specification in this constructor call with the diamond operator ("<>").(®÷œÀıÿÿÿÿ
+g
+java:S3776("RRefactor this method to reduce its Cognitive Complexity from 19 to the 15 allowed.(ô°‡
+u
+java:S2293 "YReplace the type specification in this constructor call with the diamond operator ("<>").(êåî÷úÿÿÿÿ
+p
+java:S2293ñ"YReplace the type specification in this constructor call with the diamond operator ("<>").(şÖ¸Ø
+p
+java:S2293"YReplace the type specification in this constructor call with the diamond operator ("<>").(şÖ¸Ø
+p
+java:S2293ø"YReplace the type specification in this constructor call with the diamond operator ("<>").(şÖ¸Ø
+o	java:S120"ZRename this package name to match the regular expression '^[a-z_]+(\.[a-z_][a-z0-9_]*)*$'.(Ä”òª
+p
+java:S2293§"YReplace the type specification in this constructor call with the diamond operator ("<>").(¸ªá‘
+f
+java:S1192ó"ODefine a constant instead of duplicating this literal "This Cliente (" 3 times.(ÛÌ¥œ
+o
+java:S22936"YReplace the type specification in this constructor call with the diamond operator ("<>").(Ï…¿°

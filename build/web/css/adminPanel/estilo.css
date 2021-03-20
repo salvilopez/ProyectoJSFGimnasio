@@ -1,0 +1,16 @@
+body { padding-top:20px; }
+.panel-body .btn:not(.btn-block) { width:120px;margin-bottom:10px; }
+.altu{
+    width: 100%;
+    height: 100%;
+}
+::placeholder {
+  color: black;
+  opacity: 0.5;
+}
+.btn-marcado{
+color:white;
+font-weight:bold;
+background-color:#51cbce;
+border-color:white;
+}

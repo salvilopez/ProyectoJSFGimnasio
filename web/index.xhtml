@@ -1,0 +1,548 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html   xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:h="http://xmlns.jcp.org/jsf/html"    	
+        xmlns:p="http://primefaces.org/ui"
+        xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+        xmlns:f="http://xmlns.jcp.org/jsf/core"
+        xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+        xmlns:pt="http://xmlns.jcp.org/jsf/passthrough">
+    <h:head>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2.0, minimum-scale=1.0,  user-scalable=yes"/>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+        <title>HealthyGym-Inicio</title>
+        <link href="css/bootstrap.min.css" rel="stylesheet" media="screen"/>
+        <link href="css/principal/estilo.css" rel="stylesheet"/>
+        <h:outputScript  name="js/popper.min.js"></h:outputScript>
+        <h:outputScript  name="js/bootstrap.min.js"></h:outputScript>
+        <h:outputScript library="primefaces" name="jquery/jquery.js"/>
+        <h:outputScript library="primefaces" name="jquery/jquery-plugins.js"/> 
+
+        <!-- Recursos validate --> 
+        <script src="js/validate/dist/jquery.validate.js"></script>
+        <script src="js/validate/src/ajax.js"></script>
+        <script src="js/validate/src/localization/messages_es.js"></script>
+        <script src="js/validate/dist/additional-methods.js"></script>
+
+        <script>
+            $(document).ready(function () {
+                var contador = 1;
+                setInterval(function () {
+                    var imagen = document.getElementById("fondo");
+                    imagen.style.backgroundImage = "url('imagenes/fondo/" + contador + ".jpg')";
+                    if (contador == 4) {
+                        contador = 0;
+                    }
+                    contador++;
+                }, 3000);
+                $("#botonlogin").click(function (event) {
+
+                    var dat = {nombreUsu: $("#nombreUsuario").val(), pass: $("#pass").val()};
+                    $.ajax({url: "loguear",
+                        method: "GET",
+                        data: dat,
+                        success: function (result) {
+                            if (result != "") {
+                                if (result == "cliente") {
+                                    window.location.href = "faces/index.xhtml";
+                                } else
+                                if (result == "monitor") {
+                                    window.location.href = "faces/insertarMonitor.xhtml";
+                                } else
+                                if (result == "admin") {
+                                    window.location.href = "faces/insertarAdmin.xhtml";
+                                } else
+                                    $("#mensajeLogin").html("");
+                                $("#mensajeLogin").html(result);
+                            } else {
+                                window.location.href = "faces/index.xhtml";
+                            }
+                        }});
+                });
+
+
+
+                $("#botonTarifa").on("click", function (event) {
+                    $("#caja").hide();
+
+                    $("#botonTarifa").show();
+                    $("#desple").animate({
+                        height: 'toggle'
+                    });
+                });
+                $("#botonRegistro").on("click", function (event) {
+                    event.preventDefault;
+
+                    var dat = {nombreUsur: $("#nombreUsur").val(), passr1: $("#passr1").val(), nombrer: $("#nombrer").val(), apellidosr: $("#apellidosr").val(), emailr: $("#emailr").val()};
+                    $.ajax({url: "registrarse",
+                        method: "GET",
+                        data: dat,
+                        success: function (result) {
+
+
+
+                        }});
+                });
+
+
+
+
+                $("#formuRegistro").validate({
+                    rules: {
+
+                        nombreUsur: {
+                            required: true
+                        },
+                        passr1: {
+                            required: true
+                        },
+                        passr2: {
+                            required: true
+                        },
+                        nombrer: {
+                            required: true
+                        },
+                        apellidosr: {
+                            required: true
+                        },
+                        emailr: {
+                            /*remote: {
+                             url: "compruebaEmail",
+                             type: "POST",
+                             data: {
+                             Email: function () {
+                             return $("#mail").val();
+                             }
+                             }
+                             },*/
+                            required: true,
+                            email: true
+                        }
+                    },
+                    messages: {
+                        nombreUsur: {
+                            required: "Este campo es obligatorio"
+
+                        },
+                        passr1: {
+                            required: "Este campo es obligatorio"
+                        },
+                        passr2: {
+                            minlength: "Por favor, no escribas menos de 9 caracteres"
+                        },
+                        apellidosr: {
+                            required: "Este campo es obligatorio"
+                        },
+                        emailr: {
+                            required: "Este campo es obligatorio",
+                            //remote: "Ya existe ese correo",
+                            email: "Escribe direccion de correo valida"
+                        }
+                    }
+
+
+                });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            });
+        </script>
+    </h:head>
+    <h:body>
+        <div class="container-fluid">
+            <header class="fixed-top anchoheader">
+                <nav class="navbar navbar-expand-md navbar-light">
+                    <h1><a class="navbar-brand offset-md-3 text-white lnk" href="#">HealthyGym</a></h1>
+                    <button class="navbar-toggler bg-white" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                        <ul class="navbar-nav mr-auto offset-lg-2">
+                            <li class="nav-item  ">
+                                <h:form><h:commandLink action="index.xhtml" value="Inicio" styleClass="nav-link ln text-white"/> </h:form>
+                            </li>
+                            <li class="nav-item ">
+                                <h:form><h:commandLink action="actividades.xhtml" value="Actividades" styleClass="nav-link ln text-white"/> </h:form>
+                            </li>
+                            <li class="nav-item ">
+                                <h:form><h:commandLink action="blog.xhtml" value="Blog" styleClass="nav-link ln text-white"/> </h:form>
+                            </li>
+                            <li class="nav-item ">
+                                <h:form><h:commandLink action="asesoramiento.xhtml" value="Asesoramiento" styleClass="nav-link ln text-white"/> </h:form>
+                            </li>
+                        </ul>
+                        <ul class="navbar-nav mr-auto offset-lg-1">
+                            <li class="nav-item ">
+                                <a class="nav-link  ln text-white" href="#" data-toggle="modal" data-target="#exampleModal2"><h:outputText value="Apuntate" rendered="#{bSesion.oklog eq false}"/></a>
+                                <a data-toggle="modal" data-target=".bd-example-modal-xl"> <h:outputText value="Bienvenido" rendered="#{bSesion.oklog eq true}" styleClass="nav-link  ln text-white" /></a>
+
+                            </li>
+                            <li class="nav-item ">
+                                <a class="nav-link ln text-white" href="#" data-toggle="modal" data-target="#exampleModal"><h:outputText value="Login" rendered="#{bSesion.oklog eq false}"/></a>
+                                <a data-toggle="modal" data-target=".bd-example-modal-xl"> <h:outputText value="#{bSesion.clienteLogeado.nombre}" rendered="#{bSesion.oklog eq true}" styleClass="nav-link  ln text-white"/></a>
+
+
+
+                            </li> 
+                            <li class="nav-item  justify-content-end align-items-end align-content-end ml-3">
+                                <ui:fragment rendered="#{bSesion.clienteLogeado.tipo eq 'admin'}"><a href="insertarAdmin.xhtml"><img src="imagenes/ajuste.png"/></a></ui:fragment>
+
+                            </li>
+                            <li class="nav-item  justify-content-end align-items-end align-content-end ml-3">
+                                <ui:fragment rendered="#{bSesion.oklog eq true}"><a href="desconectarSesion"><img src="imagenes/salir.png"/></a></ui:fragment>
+
+                            </li>
+                        </ul>                       
+                    </div>
+                </nav>
+            </header>        
+            <main id="fondo">
+                <div aria-label="breadcrumb" id="migasPan">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item active" aria-current="page">Inicio</li>
+                    </ol>
+                </div>
+                <div class="row">
+                    <div class="col2 mt-5">
+                    </div>
+                    <div class="col-5 offset-1 mt-5">
+                        <p class=" mt-5 tituloama">Entrena con nosotros</p>
+                    </div>                    
+                    <div class="col-4 offset-1 mt-5 titulito2 " id="caja" >
+                        <div class="col-6 offset-3" >
+                            <h1 class="text-center tituloama manita" id="botonTarifa">Tarifas</h1> 
+                        </div>
+                        <div class="row" id="desple">
+                            <ui:repeat value="#{beanIndex.listaTarifas}" var="tarifa">
+                                <div class="col-9 offset-2">
+                                    <h:outputText value="#{tarifa.nombreTarifa}" />
+                                </div>
+                                <div class="col-3 offset-8">
+                                    <h:outputText value="#{tarifa.precio} €"/>
+                                </div>
+                            </ui:repeat>
+                        </div>
+                    </div>    
+                </div>
+            </main>
+            <footer class="mt-1">
+                <div class="col-md-6 offset-md-3 col-10 offset-1">
+                    <div class="row mb-5">
+                        <div class="col-sm-8 col-12 justify-content-around d-flex offset-sm-2 offset-0 mt-5">
+                            <h:graphicImage url="imagenes/socialicons/facebook.png" width="30px" height="30px"/>
+                            <h:graphicImage url="imagenes/socialicons/instagram.png" width="30px" height="30px"/>
+                            <h:graphicImage url="imagenes/socialicons/twitter.png" width="30px" height="30px"/>
+                            <h:graphicImage url="imagenes/socialicons/whatsapp.png" width="30px" height="30px"/>
+                            <h:graphicImage url="imagenes/socialicons/youtube.png" width="30px" height="30px"/>
+                        </div>
+                        <div class="col-sm-3 mt-3 text-center col-10 offset-1 offset-sm-0"><a href="contacto.xhtml">CONTACTO</a> </div>
+                        <div class="col-sm-6  mt-3 text-center col-10 offset-1 offset-sm-0"><a href="pfrecuentes.xhtml">PREGUNTAS FRECUENTES</a></div>
+                        <div class="col-sm-3 mt-3 text-center col-10 offset-1 offset-sm-0"><a href="avisoLegal.xhtml">AVISO LEGAL</a></div>
+                        <div class="col-5 offset-1 mt-3 text-center"><a href="politicaCookies.xhtml">POLITICA DE COOKIES</a></div>
+                        <div class="col-5 mt-3 text-center"><a href="politicaPrivacidad.xhtml">POLITICA DE PRIVACIDAD</a></div>
+                        <div class="col-4 offset-4 mt-3 text-center">Copyright  © 2019</div>
+                        <div class="col-sm-6 offset-sm-3 mt-3 mb-3 text-center col-12 offset-0">Todos los derechos reservados</div>  
+                    </div>
+                </div>
+            </footer>
+            <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h3 class="modal-title" id="exampleModalLabel">Login</h3>
+                            <button type="button" class="close col-2" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="row">
+                                <div class="col-sm-4 offset-sm-1 col-10 offset-1 text-center">
+                                    <label for="nombreUsuario"><h:outputText value="Nombre Usuario"/></label> 
+                                </div>
+                                <div class="col-sm-7 col-10 offset-1 offset-sm-0 ">
+
+                                    <h:inputText id="nombreUsuario" class="form-control"/>
+                                </div>   
+                                <div class="col-sm-4 offset-1 col-10 mt-3 text-center">
+                                    <label for="pass"><h:outputText value="Contraseña"/></label> 
+                                </div>
+                                <div class="col-sm-7 col-10 offset-1 offset-sm-0 mt-3">
+                                    <h:inputText id="pass" class="form-control"/>
+                                </div>
+                                <div class="col-10 offset-2">
+                                    <p id="mensajeLogin"></p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer align-items-center justify-content-center align-content-center">
+                            <button type="button" class="btn btn-secondary cerrar col-5 offset-1 ml-0" data-dismiss="modal">Cerrar</button>
+                            <button type="button" name="boton" id="botonlogin" value="entrar" class="btn btn-primary col-5 offset-1">Entrar</button>
+                        </div>
+                        <div class="modal-footer">
+                            <div class="col-md-12 col-12 offset-md-1 sb">
+                                <p class="text-center"> Si no estas registrado ,<span  data-toggle="modal" data-target="#exampleModal2" class="enlace" > Registrate</span></p>     
+                            </div> 
+                        </div>
+                    </div>
+                </div>
+            </div> 
+            <div class="modal fade" id="exampleModal2" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+
+                <div class="modal-dialog" role="document">
+                    <form action="#">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h3 class="modal-title text-center" id="exampleModalLabel">Apuntate</h3>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+
+                            <div class="modal-body">
+
+                                <div class="row">
+
+
+
+                                    <div class="col-sm-4 offset-1 col-10 mt-3 text-center">
+                                        <label for="nombreUsu" >Nombre Usuario </label>
+
+                                    </div>
+                                    <div class="col-sm-7 col-10 offset-1 offset-sm-0">
+                                        <input type="text" name="nombreUsu" id="nombreUsu" class="form-control"/>
+                                    </div>   
+                                    <div class="col-sm-4 offset-1 col-10 mt-3 text-center">
+                                        <label for="passr1" >Contraseña </label>
+                                    </div>
+                                    <div class="col-sm-7 col-10 offset-1 offset-sm-0">
+                                        <input type="password" name="passr1" id="passr2" class="form-control"/>
+                                    </div>
+                                    <div class="col-sm-4 offset-1 col-10 mt-3 text-center">
+                                        <label for="passr2" >Confirme Contraseña :</label>
+                                    </div>
+                                    <div class="col-sm-7 col-10 offset-1 offset-sm-0">
+                                        <input type="password" name="passr2" id="passr2" class="form-control"/>
+                                    </div>
+                                    <div class="col-sm-4 offset-1 col-10 mt-3 text-center">
+                                        <label for="nombrer" >Nombre :</label>
+                                    </div>
+                                    <div class="col-sm-7 col-10 offset-1 offset-sm-0">
+
+                                        <input type="text" name="nombrer" id="nombrer" class="form-control"/>
+                                    </div>                                
+                                    <div class="col-sm-4 offset-1 col-10 mt-3 text-center">
+                                        <label for="apellidosr" >Apellidos :</label> 
+                                    </div>
+                                    <div class="col-sm-7 col-10 offset-1 offset-sm-0">
+                                        <input type="text" name="apellidosr" id="apellidosr" class="form-control"/>
+                                    </div>                                      
+                                    <div class="col-sm-4 offset-1 col-10 mt-3 text-center">
+                                        <label for="email" >Email :</label> 
+                                    </div>
+                                    <div class="col-sm-7 col-10 offset-1 offset-sm-0">
+                                        <input type="email" name="emailr" id="emailr" class="form-control"/>
+
+                                    </div>                                      
+
+                                </div>
+
+                            </div>
+
+                            <div class="modal-footer row  align-items-center justify-content-center align-content-center">
+                                <div class="col-md-12 col-12 offset-md-1 sb ">
+                                    <h:outputText value="#{beanIndex.mensaje}"/>
+                                </div>
+
+                                <input type="submit" name="botonRegistro" id="botonRegistro" class="btn btn-primary col-5 offset-1" value="Registrarse"/>
+
+                                <button type="button" class="btn btn-secondary align-items-end col-5 offset-1" data-dismiss="modal">Cerrar</button>
+                            </div> 
+
+                        </div>
+                    </form>
+                </div>
+            </div> 
+
+
+
+            <div class="modal fade bd-example-modal-xl" tabindex="-1" role="dialog" aria-labelledby="myExtraLargeModalLabel" aria-hidden="true">
+                <h:form  enctype="multipart/form-data">
+                    <div class="modal-dialog modal-xl">
+                        <div class="modal-content content">
+
+
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="card card-user">
+                                        <div class="image">
+                                            <!-- imagen portada  <img src="../assets/img/damir-bosnjak.jpg" alt="...">-->
+                                        </div>
+                                        <div class="card-body">
+                                            <div class="author text-center d-flex flex-column align-items-center">
+                                                <h:graphicImage class="avatar border-gray" value="imagenes/clientes/#{bSesion.clienteLogeado.foto}"/>
+
+
+
+
+                                            </div>
+
+
+                                        </div>
+                                        <div class="card-footer text-center d-flex flex-column">
+                                            <h:outputText class="description" value="#{bSesion.clienteLogeado.nombre} #{bSesion.clienteLogeado.apellidos}"/>
+                                            <h:outputText class="description text-center" value="#{bSesion.clienteLogeado.tipo}"/>
+
+                                        </div>
+                                        <div class="card-footer text-center d-flex flex-column">
+
+                                            <p:fileUpload value="#{bSesion.imgArt}" id="img" mode="simple"/>
+
+
+                                        </div>                                       
+
+
+
+
+                                    </div>
+
+                                </div>
+                                <div class="col-md-8">
+                                    <div class="card card-user">
+
+                                        <div class="card-header">
+                                            <h5 class="card-title">Editar Perfil</h5>
+                                        </div>
+                                        <div class="card-body">
+
+                                            <div class="row">
+
+                                                <div class="col-md-6 px-1">
+                                                    <div class="form-group">
+                                                        <label>Nombre de Usuario</label>
+
+                                                        <h:outputText value="#{bSesion.clienteLogeado.nombreUsuario}" class="form-control disabled"/>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-md-6 pl-1">
+                                                    <div class="form-group">
+                                                        <label for="exampleInputEmail1">Correo electronico</label>
+
+                                                        <h:inputText  pt:placeholder="#{bSesion.clienteLogeado.email}" value="#{bSesion.email}" class="form-control"/>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-6 pl-1">
+                                                    <div class="form-group">
+                                                        <label>Nombre</label>
+
+                                                        <h:inputText  pt:placeholder="#{bSesion.clienteLogeado.nombre}" value="#{bSesion.nombre}" class="form-control"/>
+                                                    </div>
+                                                </div>                   
+                                                <div class="col-md-6 pr-1">
+                                                    <div class="form-group">
+                                                        <label>Apellidos</label>
+
+                                                        <h:inputText  pt:placeholder="#{bSesion.clienteLogeado.apellidos}" value="#{bSesion.apellidos}" class="form-control"/>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label>Direccion</label>
+
+                                                        <h:inputText  pt:placeholder="#{bSesion.clienteLogeado.direccion}" value="#{bSesion.direccion}" class="form-control"/>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label>Contraseña</label>
+
+                                                        <h:inputText  pt:placeholder="#{bSesion.clienteLogeado.pass}" value="#{bSesion.pass}" class="form-control"/>
+                                                    </div>
+                                                </div>    
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-4 pr-1">
+                                                    <div class="form-group">
+                                                        <label>Telefono</label>
+
+                                                        <h:inputText  pt:placeholder="#{bSesion.clienteLogeado.telefono}" value="#{bSesion.telefono}" class="form-control"/>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-4 px-1">
+                                                    <div class="form-group">
+                                                        <label>Peso</label>
+
+                                                        <h:inputText  pt:placeholder="#{bSesion.clienteLogeado.peso}" value="#{bSesion.peso}" class="form-control"/>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-4 pl-1">
+                                                    <div class="form-group">
+                                                        <label>Objetivo</label>
+                                                        <h:inputText  pt:placeholder="#{bSesion.clienteLogeado.objetivo}" value="#{bSesion.objetivo}" class="form-control"/>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                    <div class="form-group">
+                                                        <label>Observaciones de Salud</label>
+
+                                                        <h:inputText  pt:placeholder="#{bSesion.clienteLogeado.observacionesSalud}" value="#{bSesion.observaciones}" class="form-control textarea"/>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="update ml-auto mr-auto">
+                                                    <h:commandButton value="Actualizar Perfil" class="btn btn-primary btn-round" actionListener="#{bSesion.ActualizarPerfil}"/>
+                                                    <button type="button" class="btn btn-secondary align-items-end" data-dismiss="modal">Cerrar</button>
+                                                </div>
+                                            </div>
+
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+
+
+
+
+
+
+
+
+
+
+
+                        </div>
+                    </div>
+                </h:form>
+            </div>
+        </div>
+        <script src="js/jquery-3.3.1.min.js"></script>
+        <script src="js/popper.min.js"></script>
+        <script src="js/bootstrap.min.js"></script>
+    </h:body>
+</html>
+

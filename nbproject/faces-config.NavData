@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Scene Scope="Project" version="2">
+    <Scope Scope="Faces Configuration Only"/>
+    <Scope Scope="Project">
+        <Node id="insertarAdmin.xhtml" x="900" y="300" zoom="true"/>
+        <Node id="index.xhtml" x="150" y="300" zoom="true"/>
+        <Node id="politicaPrivacidad.xhtml" x="400" y="450" zoom="true"/>
+        <Node id="contacto.xhtml" x="150" y="450" zoom="true"/>
+        <Node id="pfrecuentes.xhtml" x="650" y="300" zoom="true"/>
+        <Node id="avisoLegal.xhtml" x="400" y="300" zoom="true"/>
+        <Node id="asesoramiento.xhtml" x="150" y="150" zoom="true"/>
+        <Node id="blog.xhtml" x="400" y="150" zoom="true"/>
+        <Node id="politicaCookies.xhtml" x="900" y="150" zoom="true"/>
+        <Node id="actividades.xhtml" x="650" y="150" zoom="true"/>
+        <Node id="borrarAdmin.xhtml" x="150" y="600" zoom="true"/>
+    </Scope>
+    <Scope Scope="All Faces Configurations"/>
+</Scene>

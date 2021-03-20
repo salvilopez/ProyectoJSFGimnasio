@@ -1,0 +1,122 @@
+a{
+    cursor: pointer;
+}
+/*********************************************
+*RESETEO
+*********************************************/
+.btnRelleno{
+ color:white;font-weight: bold;background-color:#51cbce;border-color:white;   
+}
+*{
+    padding: 0;
+    margin: 0;
+}
+/*********************************************
+*FONDO
+*********************************************/
+#fondo{
+    background: url(../../imagenes/fondo/1.jpg) center;
+    background-size: cover;
+    height: 700px !important;
+}
+#migasPan{
+
+    margin-top: 75px;
+
+}
+.botonSel{
+    color:#51cbce;background-color:white;border-color:#51cbce
+}
+/*********************************************
+*ENLACES
+*********************************************/
+.enlace:hover{
+    cursor:pointer;
+}
+a{
+    color:black;
+    text-decoration: none;
+}
+a:visited{
+    color:black;
+    text-decoration: none;
+}
+a:link{
+    color:black;
+    text-decoration: none;
+}
+footer .enlace:hover{
+    cursor:pointer;
+}
+footer a{
+    color:white;
+    text-decoration: none;
+}
+footer a:visited{
+     color:white;
+    text-decoration: none;
+}
+a:link{
+     color:white;
+    text-decoration: none;
+}
+/*********************************************
+*fondoheader y footer
+*********************************************/
+header nav{
+    background-color:rgba(65,60,60,0.4);
+    color:white;
+    font-weight: bold;
+    font-size:1.2em;
+}
+
+footer{
+    background-color:rgba(65,60,60,0.6);
+    color:white;
+    font-weight: bold;   
+}
+header{
+    float: left;
+    position: fixed;
+    top:0;
+    z-index: 100;
+    padding-left: 15px;
+    padding-right: 15px;
+}
+header nav ul li:hover{
+    color:grey;
+
+}
+header h1{
+    color:white;
+
+}
+.caja{
+  background-color:rgba(65,60,60,0.4);
+  border: black 2px solid;
+  color:white;
+}
+.mauto{
+    margin:0 auto;
+}
+.bblanco{
+    border:  solid 4px white;
+}
+h1,p{
+    color:white;
+        font-weight: bold;
+}
+label{
+     color:black;
+    font-weight: bold;
+}
+.fondito{
+  border:2px solid black;
+    border-radius: 50px;
+    padding: 50px;
+      background-color:rgba(255,255,255,0.6);
+}
+.fondito h1,.fondito nav div a{
+    font-weight: bold;
+color:black;
+}

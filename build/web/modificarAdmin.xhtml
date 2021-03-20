@@ -1,0 +1,1430 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+
+    <h:head>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2.0, minimum-scale=1.0,  user-scalable=yes"/>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+        <title>HealthyGym-Aministrador</title>
+        <link href="css/bootstrap.min.css" rel="stylesheet" media="screen"/>
+        <link href="css/adminPanel/estilo.css" rel="stylesheet"/>
+        <h:outputScript  name="js/popper.min.js"></h:outputScript>
+        <h:outputScript  name="js/bootstrap.min.js"></h:outputScript>
+
+        <h:outputScript library="primefaces" name="jquery/jquery.js"/>
+        <h:outputScript library="primefaces" name="jquery/jquery-plugins.js"/>
+        <meta charset="utf-8" />
+        <link rel="apple-touch-icon" sizes="76x76" href="../assets/img/apple-icon.png"/>
+        <!-- <link rel="icon" type="image/png" href="../assets/img/favicon.png">-->
+
+        <!--     Fonts and icons     -->
+        <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700,200" rel="stylesheet" />
+        <link href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css" rel="stylesheet"/>
+        <!-- CSS Files -->
+        <link href="css/bootstrap.min.css" rel="stylesheet" />
+        <link href="css/paper-dashboard.css?v=2.0.0" rel="stylesheet" />
+        <!-- CSS Just for demo purpose, don't include it in your project -->
+        <link href="css/adminPanel/demo.css" rel="stylesheet" />
+        <script>
+            $(document).ready(function () {
+                (function ($) {
+
+                    $('#filtrar').keyup(function () {
+
+                        var rex = new RegExp($(this).val(), 'i');
+                        $('.buscar tr').hide();
+                        $('.buscar tr').filter(function () {
+                            return rex.test($(this).text());
+                        }).show();
+
+                    })
+
+                }(jQuery));
+
+            });
+
+
+
+
+        </script>
+    </h:head>
+    <h:body>
+        <div class=" container-fluid">
+            <div class="sidebar" data-color="white" >
+                <!--
+                  Tip 1: You can change the color of the sidebar using: data-color="blue | green | orange | red | yellow"
+                -->
+                <div class="logo fondoAguamarina">
+
+                    <div class="logo-normal fondoAguamarina">
+
+                        <div class="logo-image-big fondoAguamarina">
+                            <img src="imagenes/clientes/USERDEFAULT.png" class="avatar tamanioP"/>
+                             #{bSesion.clienteLogeado.nombreUsuario}
+
+                        </div> 
+                    </div>
+                </div>
+                <div class="sidebar-wrapper" id="menu">
+                    <ul class="nav">
+                        <li>
+                            <a href="insertarAdmin.xhtml">
+                                <i class="nc-icon nc-simple-add"></i>
+                                <p>INSERTAR REGISTRO</p>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="borrarAdmin.xhtml">
+                                <i class="nc-icon nc-simple-delete"></i>
+                                <p>ELIMINAR REGISTRO</p>
+                            </a>
+                        </li>
+                        <li class="btn-marcado">
+                            <a href="modificarAdmin.xhtml">
+                                <i class="nc-icon nc-refresh-69"></i>
+                                <p>MODIFICAR REGISTRO</p>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="faces/index.xhtml">
+                                <i class="nc-icon nc-world-2"></i>
+                                <p>VISITAR WEB</p>
+                            </a>
+                        </li>
+                        <li class="active ">
+                            <a href="graficas.xhtml">
+                                <i class="nc-icon nc-chart-bar-32"></i>
+                                <p>VER GRAFICAS</p>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="desconectarSesion">
+                                <i class="nc-icon nc-button-power"></i>
+                                <p>DESCONECTAR</p>
+                            </a>
+                        </li>
+
+
+                    </ul>
+                </div>
+            </div>
+            <div class="main-panel">
+                <!-- Navbar -->
+                <nav class="navbar navbar-expand-lg navbar-absolute fixed-top navbar-transparent">
+                    <div class="container-fluid">
+                        <div class="navbar-wrapper">
+                            <div class="navbar-toggle">
+                                <button type="button" class="navbar-toggler">
+                                    <span class="navbar-toggler-bar bar1"></span>
+                                    <span class="navbar-toggler-bar bar2"></span>
+                                    <span class="navbar-toggler-bar bar3"></span>
+                                </button>
+                            </div>
+                            <a class="navbar-brand">Panel de administracion-Modificar Registro</a>
+                        </div>
+
+
+                    </div>
+                </nav>
+                <!-- End Navbar -->
+
+                <div class="content">
+                    <div class="row">
+                        <div  class="col-10 offset-1">
+                            <h:form>
+                                <h:outputLabel for="tabla" value="Seleccione la tabla" />
+                                <h:selectOneMenu id="tabla" value="#{beanModificar.tablaSel}" onchange="submit()">
+                                       <f:selectItem itemLabel="Seleccione tabla" itemValue="" />
+                                    <f:selectItem itemLabel="Blog" itemValue="blog" />
+                                    <f:selectItem itemLabel="Cliente" itemValue="cliente" />
+                                    <f:selectItem itemLabel="Comida" itemValue="comida" />
+                                    <f:selectItem itemLabel="Rutina" itemValue="rutina" />
+                                    <f:selectItem itemLabel="Ejercicio" itemValue="ejercicio" />
+                                    <f:selectItem itemLabel="Reserva" itemValue="reserva" />
+                                    <f:selectItem itemLabel="Sala" itemValue="sala" />
+                                    <f:selectItem itemLabel="Tarifa" itemValue="tarifa" />
+                                    <f:selectItem itemLabel="Dieta" itemValue="dieta" />
+                                </h:selectOneMenu>
+                            </h:form>
+
+                        </div>
+
+                    </div> 
+                    <div class="row">
+
+                        <ui:fragment rendered="#{beanModificar.tablaSel eq 'cliente'}">
+                            <div  class="col-12">
+
+
+                                <div class="row mt-3">
+                                    <div class="col-sm-3">
+                                        <input type="text" name="buscador" id="filtrar" class="widthi"/>
+                                    </div>
+
+                                </div>
+                                <div class="row mt-5">
+                                    <div class="col-auto ">
+                                        <table border="2" class="table table-responsive table-bordered table-hover table-striped tablesep text-center">
+                                            <thead class="thead-light">
+                                                <tr class="text-center">
+                                                    <th>Nombre</th>
+                                                    <th>Apellidos</th>
+                                                    <th>Nombre Usuario</th>
+                                                    <th>Contraseña</th>
+                                                    <th>Email</th>
+                                                    <th>Fecha Nacimiento</th>
+                                                    <th>Dirección</th>
+                                                    <th>Telefono</th>
+                                                    <th>tipo</th>
+                                                    <th>Fecha Registro</th>
+                                                    <th>Fecha Validez</th>
+                                                    <th>Peso</th>
+                                                    <th>Objetivo</th>
+                                                    <th>Observaciones Salud</th>
+                                                    <th>Foto</th>
+                                                    <th></th>
+                                                </tr>
+                                            </thead>
+                                            <tbody class="buscar">
+                                                <ui:repeat value="#{beanModificar.listaClientes}" var="item">
+                                                    <tr>
+                                                        <td>#{item.nombre}</td>
+                                                        <td>#{item.apellidos}</td>
+                                                        <td>#{item.nombreUsuario}</td>
+                                                        <td>#{item.pass}</td>
+                                                        <td>#{item.email}</td>
+                                                        <td>#{item.fechaNacimiento}</td>
+                                                        <td>#{item.direccion}</td>
+                                                        <td>#{item.telefono}</td>
+                                                        <td>#{item.tipo}</td>
+                                                        <td>#{item.fechaRegistro}</td>
+                                                        <td>#{item.fechaValidez}</td>
+                                                        <td>#{item.peso}</td>
+                                                        <td>#{item.objetivo}</td>
+                                                        <td>#{item.observacionesSalud}</td>
+                                                        <td><img src="imagenes/clientes/#{item.foto}" width="100" height="100"/></td>
+                                                        <td class=" w-auto">
+                                                            <h:form>
+                                                                <h:commandButton value="Modificar" class="btn btn-primary btn-round" actionListener="#{beanModificar.modificarTabla}">
+                                                                    <f:attribute name="clave" value="#{item.nombreUsuario}" />
+                                                                    <f:attribute name="tabla" value="cliente" />
+                                                                </h:commandButton>
+
+                                                            </h:form>
+                                                        </td>
+
+
+
+                                                    </tr>
+
+                                                </ui:repeat>
+
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </ui:fragment>
+
+                        <ui:fragment rendered="#{beanModificar.tablaSel eq 'blog'}">
+                            <div  class="col-12">
+
+
+                                <div class="row mt-3">
+                                    <div class="col-sm-3">
+                                        <input type="text" name="buscador" id="filtrar" class="widthi"/>
+                                    </div>
+
+                                </div>
+                                <div class="row mt-5">
+                                    <div class="col-auto ">
+                                        <table border="2" class="table table-responsive table-bordered table-hover table-striped tablesep text-center">
+                                            <thead class="thead-light">
+                                                <tr class="text-center">
+                                                    <th>Codigo Blog</th>
+                                                    <th>Titulo Blog</th>
+                                                    <th>Descripcion</th>
+                                                    <th>Video</th>
+
+                                                    <th></th>
+                                                </tr>
+                                            </thead>
+                                            <tbody class="buscar">
+                                                <ui:repeat value="#{beanModificar.listaBlog}" var="item">
+                                                    <tr>
+                                                        <td>#{item.codNoticia}</td>
+                                                        <td>#{item.tituloNoticia}</td>
+                                                        <td>#{item.descripcion}</td>
+                                                        <td><iframe width="200" height="150" src="#{item.video}"/></td>
+
+                                                        <td class=" w-auto">
+                                                            <h:form>
+                                                                <h:commandButton value="Modificar" class="btn btn-primary btn-round" actionListener="#{beanModificar.modificarTabla}">
+                                                                    <f:attribute name="clave" value="#{item.codNoticia}" />
+                                                                    <f:attribute name="tabla" value="blog" />
+                                                                </h:commandButton>
+
+                                                            </h:form>
+
+                                                        </td>
+
+
+
+                                                    </tr>
+
+                                                </ui:repeat>
+
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </ui:fragment>      
+                        <ui:fragment rendered="#{beanModificar.tablaSel eq 'comida'}">
+                            <div  class="col-12">
+
+
+                                <div class="row mt-3">
+                                    <div class="col-sm-3">
+                                        <input type="text" name="buscador" id="filtrar" class="widthi"/>
+                                    </div>
+
+                                </div>
+                                <div class="row mt-5">
+                                    <div class="col-auto ">
+                                        <table border="2" class="table table-responsive table-bordered table-hover table-striped tablesep text-center">
+                                            <thead class="thead-light">
+                                                <tr class="text-center">
+                                                    <th>Codigo comida</th>
+                                                    <th>Nombre comida</th>
+                                                    <th>receta</th>          
+
+                                                    <th>Cantidad</th>
+                                                    <th>Tipo Comida</th>
+                                                    <th>Foto</th>
+                                                    <th></th>
+                                                </tr>
+                                            </thead>
+                                            <tbody class="buscar">
+                                                <ui:repeat value="#{beanBorrar.listaComidas}" var="item">
+                                                    <tr>
+                                                        <td>#{item.codComida}</td>
+                                                        <td>#{item.nombreComida}</td>
+                                                        <td>#{item.receta}</td>
+                                                        <td>#{item.cantidad}</td>
+
+                                                        <td>#{item.tipoComida}</td>
+                                                        <td><img src="imagenes/alimentos/#{item.fotoComida}" width="100" height="100"/></td>
+                                                        <td class=" w-auto">
+                                                            <h:form>
+                                                                <h:commandButton value="Modificar" class="btn btn-primary btn-round" actionListener="#{beanModificar.modificarTabla}">
+                                                                    <f:attribute name="clave" value="#{item.codComida}" />
+                                                                    <f:attribute name="tabla" value="comida" />
+                                                                </h:commandButton>
+
+                                                            </h:form>
+
+                                                        </td>
+
+
+
+                                                    </tr>
+
+                                                </ui:repeat>
+
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </ui:fragment>                                                
+
+
+
+
+
+
+
+                        <ui:fragment rendered="#{beanModificar.tablaSel eq 'ejercicio'}">
+                            <div  class="col-12">
+
+
+                                <div class="row mt-3">
+                                    <div class="col-sm-3">
+                                        <input type="text" name="buscador" id="filtrar" class="widthi"/>
+                                    </div>
+
+                                </div>
+                                <div class="row mt-5">
+                                    <div class="col-auto ">
+                                        <table border="2" class="table table-responsive table-bordered table-hover table-striped tablesep text-center">
+                                            <thead class="thead-light">
+                                                <tr class="text-center">
+                                                    <th>Codigo ejercicio</th>
+                                                    <th>Nombre ejercicio</th>
+                                                    <th>Grupo</th>
+                                                    <th>Foto</th>
+                                                    <th>Video</th>          
+
+
+
+                                                    <th></th>
+                                                </tr>
+                                            </thead>
+                                            <tbody class="buscar">
+                                                <ui:repeat value="#{beanModificar.listaEjercicio}" var="item">
+                                                    <tr>
+                                                        <td>#{item.codEjercicio}</td>
+                                                        <td>#{item.nombreEjercicio}</td>
+                                                        <td>#{item.grupo}</td>
+                                                        <td><img src="imagenes/ejercicios/#{item.foto}" width="100" height="100"/></td>
+                                                        <td><iframe width="200" height="150" src="#{item.video}"/></td>
+
+
+                                                        <td class=" w-auto">
+                                                            <h:form>
+                                                                <h:commandButton value="Modificar" class="btn btn-primary btn-round" actionListener="#{beanModificar.modificarTabla}">
+                                                                    <f:attribute name="clave" value="#{item.codEjercicio}" />
+                                                                    <f:attribute name="tabla" value="ejercicio" />
+                                                                </h:commandButton>
+
+                                                            </h:form>
+
+                                                        </td>
+
+
+
+                                                    </tr>
+
+                                                </ui:repeat>
+
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </ui:fragment>    
+
+
+
+
+
+
+
+
+                        <ui:fragment rendered="#{beanModificar.tablaSel eq 'tarifa'}">
+                            <div  class="col-12">
+
+
+                                <div class="row mt-3">
+                                    <div class="col-sm-3">
+                                        <input type="text" name="buscador" id="filtrar" class="widthi"/>
+                                    </div>
+
+                                </div>
+                                <div class="row mt-5">
+                                    <div class="col-auto ">
+                                        <table border="2" class="table table-responsive table-bordered table-hover table-striped tablesep text-center">
+                                            <thead class="thead-light">
+                                                <tr class="text-center">
+                                                    <th>Codigo tarifa</th>
+                                                    <th>Nombre tarifa</th>
+                                                    <th>meses</th>          
+                                                    <th>precio</th>
+
+
+                                                    <th></th>
+                                                </tr>
+                                            </thead>
+                                            <tbody class="buscar">
+                                                <ui:repeat value="#{beanModificar.listaTarifas}" var="item">
+                                                    <tr>
+                                                        <td>#{item.codTarifa}</td>
+                                                        <td>#{item.nombreTarifa}</td>
+                                                        <td>#{item.meses}</td>
+                                                        <td>#{item.precio}</td>
+                                                        <td class=" w-auto">
+                                                            <h:form>
+                                                                <h:commandButton value="Modificar" class="btn btn-primary btn-round" actionListener="#{beanModificar.modificarTabla}">
+                                                                    <f:attribute name="clave" value="#{item.codTarifa}" />
+                                                                    <f:attribute name="tabla" value="tarifa" />
+                                                                </h:commandButton>
+
+                                                            </h:form>
+
+                                                        </td>
+
+
+
+                                                    </tr>
+
+                                                </ui:repeat>
+
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </ui:fragment>  
+
+                        <ui:fragment rendered="#{beanModificar.tablaSel eq 'sala'}">
+                            <div  class="col-12">
+
+
+                                <div class="row mt-3">
+                                    <div class="col-sm-3">
+                                        <input type="text" name="buscador" id="filtrar" class="widthi"/>
+                                    </div>
+
+                                </div>
+                                <div class="row mt-5">
+                                    <div class="col-auto ">
+                                        <table border="2" class="table table-responsive table-bordered table-hover table-striped tablesep text-center">
+                                            <thead class="thead-light">
+                                                <tr class="text-center">
+                                                    <th>Codigo sala</th>
+                                                    <th>Nombre</th>
+                                                    <th>Capacidad</th>          
+                                                    <th>descripcion</th>
+                                                    <th>imagen</th>
+
+                                                    <th></th>
+                                                </tr>
+                                            </thead>
+                                            <tbody class="buscar">
+                                                <ui:repeat value="#{beanModificar.listaSala}" var="item">
+                                                    <tr>
+                                                        <td>#{item.codigoSala}</td>
+                                                        <td>#{item.nombre}</td>
+                                                        <td>#{item.capacidad}</td>
+                                                        <td>#{item.descripcion}</td>
+                                                        <td><img src="imagenes/clases/#{item.imagen}" width="100" height="100"/></td>
+                                                        <td class=" w-auto">
+                                                            <h:form>
+                                                                <h:commandButton value="Modificar" class="btn btn-primary btn-round" actionListener="#{beanModificar.modificarTabla}">
+                                                                    <f:attribute name="clave" value="#{item.codigoSala}" />
+                                                                    <f:attribute name="tabla" value="sala" />
+                                                                </h:commandButton>
+
+                                                            </h:form>
+                                                        </td>
+
+
+
+                                                    </tr>
+
+                                                </ui:repeat>
+
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </ui:fragment>  
+
+
+                        <ui:fragment rendered="#{beanModificar.tablaSel eq 'reserva'}">
+                            <div  class="col-12">
+
+
+                                <div class="row mt-3">
+                                    <div class="col-sm-3">
+                                        <input type="text" name="buscador" id="filtrar" class="widthi"/>
+                                    </div>
+
+                                </div>
+                                <div class="row mt-5">
+                                    <div class="col-auto ">
+                                        <table border="2" class="table table-responsive table-bordered table-hover table-striped tablesep text-center">
+                                            <thead class="thead-light">
+                                                <tr class="text-center">
+                                                    <th>Codigo cita</th>
+                                                    <th>Fecha</th>
+                                                    <th>Hora</th>          
+                                                    <th>CodSala</th>
+                                                    <th>Nombre Usuario</th>
+
+                                                    <th></th>
+                                                </tr>
+                                            </thead>
+                                            <tbody class="buscar">
+                                                <ui:repeat value="#{beanModificar.listaReservas}" var="item">
+                                                    <tr>
+                                                        <td>#{item.codCita}</td>
+                                                        <td>#{item.fecha}</td>
+                                                        <td>#{item.hora}</td>
+                                                        <td>#{item.codSala.nombre}</td>
+                                                        <td>#{item.nombreUsuario.nombreUsuario}</td>
+
+                                                        <td class=" w-auto">
+                                                            <h:form>
+                                                                <h:commandButton value="Modificar" class="btn btn-primary btn-round" actionListener="#{beanModificar.modificarTabla}">
+                                                                    <f:attribute name="clave" value="#{item.codCita}" />
+                                                                    <f:attribute name="tabla" value="reserva" />
+                                                                </h:commandButton>
+
+                                                            </h:form>
+
+                                                        </td>
+
+
+
+                                                    </tr>
+
+                                                </ui:repeat>
+
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </ui:fragment>
+
+
+
+
+
+                        <ui:fragment rendered="#{beanModificar.tablaSel eq 'rutina'}">
+                            <div  class="col-12">
+
+
+                                <div class="row mt-3">
+                                    <div class="col-sm-3">
+                                        <input type="text" name="buscador" id="filtrar" class="widthi"/>
+                                    </div>
+
+                                </div>
+                                <div class="row mt-5">
+                                    <div class="col-auto ">
+                                        <table border="2" class="table table-responsive table-bordered table-hover table-striped tablesep text-center">
+                                            <thead class="thead-light">
+                                                <tr class="text-center">
+                                                    <th>Codigo Rutina</th>
+                                                    <th>Codigo Ejercicio</th>
+                                                    <th>repeticiones</th>          
+
+                                                    <th>dia</th>
+                                                    <th>nombreUsuario</th>
+                                                    <th></th>
+                                                </tr>
+                                            </thead>
+                                            <tbody class="buscar">
+                                                <ui:repeat value="#{beanModificar.listaRutina}" var="item">
+                                                    <tr>
+                                                        <td>#{item.codRutina}</td>
+                                                        <td>#{item.ejercicio.nombreEjercicio}</td>
+                                                        <td>#{item.repeticiones}</td>
+                                                        <td>#{item.dia}</td>
+                                                        <td>#{item.nombreUsuario.nombreUsuario}</td>
+
+                                                        <td class=" w-auto">
+                                                            <h:form>
+                                                                <h:commandButton value="Modificar" class="btn btn-primary btn-round" actionListener="#{beanModificar.modificarTabla}">
+                                                                    <f:attribute name="clave" value="#{item.codRutina}" />
+                                                                    <f:attribute name="tabla" value="rutina" />
+                                                                </h:commandButton>
+
+                                                            </h:form>
+
+                                                        </td>
+
+
+
+                                                    </tr>
+
+                                                </ui:repeat>
+
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </ui:fragment>
+                        
+                        <ui:fragment rendered="#{beanModificar.tablaSel eq 'dieta'}">
+                            <div  class="col-12">
+
+
+                                <div class="row mt-3">
+                                    <div class="col-sm-3">
+                                        <input type="text" name="buscador" id="filtrar" class="widthi"/>
+                                    </div>
+
+                                </div>
+                                <div class="row mt-5">
+                                    <div class="col-auto ">
+                                        <table border="2" class="table table-responsive table-bordered table-hover table-striped tablesep text-center">
+                                            <thead class="thead-light">
+                                                <tr class="text-center">
+                                                    <th>Codigo Dieta</th>
+                                                    <th>Dia</th>
+                                                    <th>Comida</th>          
+                                                    <th>nombreUsuario</th>
+                                                    <th></th>
+                                                </tr>
+                                            </thead>
+                                            <tbody class="buscar">
+                                                <ui:repeat value="#{beanModificar.listaDieta}" var="item">
+                                                    <tr>
+                                                        <td>#{item.codDieta}</td>
+                                                        <td>#{item.dia}</td>
+                                                        <td>#{item.codComida.nombreComida}</td>
+                                                        <td>#{item.nombreUsuario.nombreUsuario}</td>
+
+                                                        <td class=" w-auto">
+                                                                    <h:form>
+                                                                <h:commandButton value="Modificar" class="btn btn-primary btn-round" actionListener="#{beanModificar.modificarTabla}">
+                                                                    <f:attribute name="clave" value="#{item.codDieta}" />
+                                                                    <f:attribute name="tabla" value="dieta" />
+                                                                </h:commandButton>
+
+                                                            </h:form>
+
+
+                                                        </td>
+
+
+
+                                                    </tr>
+
+                                                </ui:repeat>
+
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </ui:fragment>                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                    </div>
+                    <div class="row">
+                        <div class="col-12">
+
+                            <h:form enctype="multipart/form-data" rendered="#{beanModificar.tablaAModificar eq 'cliente'}">
+                                <div class="col-md-10 offset-md-1">
+                                    <div class="card card-user">
+                                        <div class="card-header">
+                                            <h5 class="card-title">Edirtar Cliente</h5>
+                                        </div>
+                                        <div class="card-body">
+                                            <div class="row">
+                                                <div class="col-md-4 px-1">
+                                                    <div class="form-group">
+                                                        <label for="nombreUsuario">Nombre Usuario</label>
+                                                        <h:inputText id="nombreUsuario" pt:placeholder="#{beanModificar.clienteSel.nombreUsuario}" value="#{beanModificar.nombreUsuario}" class="form-control"/>                                                     </div>
+                                                </div>
+                                                <div class="col-md-4 pl-1">
+                                                    <div class="form-group">
+                                                        <label for="nombre">Nombre</label>
+                                                        <h:inputText id="nombre" pt:placeholder="#{beanModificar.clienteSel.nombre}" value="#{beanModificar.nombreCliente}" class="form-control"/>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-4 pl-1">
+                                                    <div class="form-group">
+                                                        <label for="apellidos">Apellidos</label>
+                                                        <h:inputText id="apellidos" pt:placeholder="#{beanModificar.clienteSel.apellidos}" value="#{beanModificar.apellidos}" class="form-control"/>
+                                                    </div>
+                                                </div> 
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-4 pl-1">
+                                                    <div class="form-group">
+                                                        <label for="direccion">Direccion</label>
+                                                        <h:inputText id="direccion" pt:placeholder="#{beanModificar.clienteSel.direccion}" value="#{beanModificar.direccion}" class="form-control"/>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-4 pl-1">
+                                                    <div class="form-group">
+                                                        <label for="telefono">Telefono</label>
+                                                        <h:inputText id="telefono" pt:placeholder="#{beanModificar.clienteSel.telefono}" value="#{beanModificar.telefono}" class="form-control"/>
+                                                    </div>
+                                                </div>                                                    
+                                                <div class="col-md-4 pl-1">
+                                                    <div class="form-group">
+                                                        <label for="fechaNacimiento">Fecha nacimiento</label>
+                                                        <h:inputText id="fechaNacimiento" pt:type="date" pt:placeholder="#{beanModificar.clienteSel.fechaNacimiento}" value="#{beanModificar.fechaNacimiento}" class="form-control"/>
+                                                    </div>
+                                                </div>                                                     
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-4 pl-1">
+                                                    <div class="form-group">
+                                                        <label for="fechaValidez">Fecha validez</label>
+                                                        <h:inputText id="fechaValidez" pt:type="date" pt:placeholder="#{beanModificar.clienteSel.fechaValidez}" value="#{beanModificar.fechaValidez}" class="form-control"/>
+                                                    </div>
+                                                </div> 
+                                                <div class="col-md-4 pl-1">
+                                                    <div class="form-group">
+                                                        <label for="peso">Peso</label>
+                                                        <h:inputText id="peso" pt:placeholder="#{beanModificar.clienteSel.peso}" value="#{beanModificar.peso}" class="form-control"/>
+                                                    </div>
+                                                </div> 
+                                                <div class="col-md-4 pl-1">
+                                                    <div class="form-group">
+                                                        <label for="objetivo">Objetivo</label>
+                                                        <h:inputText id="objetivo" pt:placeholder="#{beanModificar.clienteSel.objetivo}" value="#{beanModificar.objetivo}" class="form-control"/>
+                                                    </div>
+                                                </div> 
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-4 pl-1">
+                                                    <div class="form-group">
+                                                        <label for="tipo">Tipo</label>
+                                                        <h:selectOneMenu id="tipo"  value="#{beanModificar.tipo}" class="form-control">
+                                                            <f:selectItem itemLabel="Cliente" itemValue="cliente"  />
+                                                            <f:selectItem itemLabel="Administrador" itemValue="admin" />
+                                                            <f:selectItem itemLabel="Monitor" itemValue="monitor" />
+                                                        </h:selectOneMenu>
+                                                    </div>
+                                                </div> 
+                                                <div class="col-md-4 pl-1">
+                                                    <div class="form-group">
+                                                        <label for="pass">Contraseña</label>
+                                                        <h:inputText id="pass" pt:placeholder="#{beanModificar.clienteSel.pass}" value="#{beanModificar.pass}" class="form-control" />
+                                                    </div>
+                                                </div> 
+                                                <div class="col-md-4 pl-1">
+                                                    <div class="form-group">
+                                                        <label for="email">Email</label>
+                                                        <h:inputText id="email" pt:placeholder="#{beanModificar.clienteSel.email}" value="#{beanModificar.email}" class="form-control"/>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-6 pl-1">
+                                                    <div class="form-group">
+                                                        <label for="observaciones">Observaciones Salud</label>
+                                                        <h:inputTextarea id="observaciones" pt:placeholder="#{beanModificar.clienteSel.observacionesSalud}" value="#{beanModificar.observacionesSalud}" class="form-control"/>
+                                                    </div>
+                                                </div>  
+                                                <div class="col-md-3 offset-md-1 align-items-center d-flex">
+                                                    <div class="form-group">
+                                                        <label for="img">Pulse aquí para subir foto</label>
+                                                        <p:graphicImage value="imagenes/clientes/#{beanModificar.clienteSel.foto}"/>
+                                                        <p:fileUpload class="avatar border-gray" value="#{beanModificar.imgCli}" id="img" mode="simple"/>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="update ml-auto mr-auto">
+                                                    <h:commandButton value="Modificar Cliente" class="btn btn-primary btn-round" actionListener="#{beanModificar.modificarCliente()}"/>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </h:form>                    
+
+                            <h:form rendered="#{beanModificar.tablaAModificar eq 'blog'}">
+                                <div class="col-md-10 offset-md-1">
+                                    <div class="card card-user">
+                                        <div class="card-header">
+                                            <h5 class="card-title">Editar Blog</h5>
+                                        </div>
+                                        <div class="card-body">
+                                            <div class="row">
+                                                <div class="col-md-4 px-1">
+                                                    <div class="form-group">
+                                                        <label for="nombreUsuario">Titulo Blog</label>
+                                                        <h:inputText id="nombreUsuario" pt:placeholder="#{beanModificar.blogSel.tituloNoticia}" value="#{beanModificar.tituloNoticia}" class="form-control"/>                                                     </div>
+                                                </div>
+                                                <div class="col-md-4 pl-1">
+                                                    <div class="form-group">
+                                                        <label for="nombre">Descripcion</label>
+                                                        <h:inputText id="nombre" pt:placeholder="#{beanModificar.blogSel.descripcion}" value="#{beanModificar.descripcionBlog}" class="form-control"/>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-4 pl-1">
+                                                    <div class="form-group">
+                                                        <label for="video">Video</label>
+                                                        <iframe width="200" height="150" src="#{beanModificar.blogSel.video}"/>
+                                                        <h:inputText id="video" value="#{beanModificar.videoBlog}" class="form-control"/>
+                                                    </div>
+                                                </div> 
+                                            </div>
+
+                                            <div class="row">
+                                                <div class="update ml-auto mr-auto">
+                                                    <h:commandButton value="Modificar Blog" class="btn btn-primary btn-round" actionListener="#{beanModificar.modificarBlog()}"/>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </h:form>  
+
+
+
+
+                            <h:form enctype="multipart/form-data" rendered="#{beanModificar.tablaAModificar eq 'comida'}">
+                                <div class="col-md-10 offset-md-1">
+                                    <div class="card card-user">
+                                        <div class="card-header">
+                                            <h5 class="card-title">Modificar Comida</h5>
+                                        </div>
+                                        <div class="card-body">
+                                            <div class="row">
+                                                <div class="col-md-4 px-1">
+                                                    <div class="form-group">
+                                                        <label for="nombreComida">Nombre Comida</label>
+                                                        <h:inputText id="nombreComida" pt:placeholder="#{beanModificar.comidaSel.nombreComida}" value="#{beanModificar.nombreComida}" class="form-control"/>                                                     </div>
+                                                </div>
+                                                <div class="col-md-4 pl-1">
+                                                    <div class="form-group">
+                                                        <label for="receta">Receta</label>
+                                                        <h:inputText id="receta" pt:placeholder="#{beanModificar.comidaSel.receta}" value="#{beanModificar.receta}" class="form-control"/>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-4 pl-1">
+                                                    <div class="form-group">
+                                                        <label for="cantidad">Cantidad</label>
+                                                        <h:inputText id="cantidad" pt:placeholder="#{beanModificar.comidaSel.cantidad}" value="#{beanModificar.cantidad}" class="form-control"/>
+                                                    </div>
+                                                </div> 
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-4 pl-1">
+                                                    <div class="form-group">
+                                                        <label for="tipoComida">Tipo Comida</label>
+                                                        <h:selectOneMenu id="tipoComida"  value="#{beanModificar.tipoComida}" class="form-control">
+                                                            <f:selectItem itemLabel="Desayuno" itemValue="desayuno"  />
+                                                            <f:selectItem itemLabel="Almuerzo" itemValue="almuerzo" />
+                                                            <f:selectItem itemLabel="Merienda" itemValue="merienda" />
+                                                            <f:selectItem itemLabel="Cena" itemValue="cena" />
+                                                        </h:selectOneMenu> 
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-4 pl-1">
+                                                    <div class="form-group">
+
+                                                        <p:graphicImage value="imagenes/alimentos/#{beanModificar.comidaSel.fotoComida}"/>
+
+                                                        <p:fileUpload value="#{beanModificar.fotoCo}" id="fotoComida" mode="simple"/>
+                                                        <label for="fotoComida">Pulse aquí para subir foto</label>
+                                                    </div>
+                                                </div>                                                    
+
+                                            </div>
+                                            <div class="row">
+                                                <div class="update ml-auto mr-auto">
+                                                    <h:commandButton value="Modificar Comida" class="btn btn-primary btn-round" actionListener="#{beanModificar.modificarComida()}"/>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </h:form> 
+
+
+
+
+                            <h:form enctype="multipart/form-data" rendered="#{beanModificar.tablaAModificar eq 'ejercicio'}">
+                                <div class="col-md-10 offset-md-1">
+                                    <div class="card card-user">
+                                        <div class="card-header">
+                                            <h5 class="card-title">Modificar Ejercicio</h5>
+                                        </div>
+                                        <div class="card-body">
+                                            <div class="row">
+                                                <div class="col-md-4 px-1">
+                                                    <div class="form-group">
+                                                        <label for="nombreEjercicio">Nombre Ejercicio</label>
+                                                        <h:inputText id="nombreEjercicio" pt:placeholder="#{beanModificar.ejercicioSel.nombreEjercicio}" value="#{beanModificar.nombreEjercicio}" class="form-control"/>                                                     </div>
+                                                </div>
+                                                <div class="col-md-4 pl-1">
+                                                    <div class="form-group">
+                                                        <label for="videoEjercicio">Video ejercicio</label>
+                                                        <iframe width="200" height="150" src="#{beanModificar.ejercicioSel.video}"/>
+                                                        <h:inputText id="videoEjercicio" pt:placeholder="#{beanModificar.ejercicioSel.video}" value="#{beanModificar.video}" class="form-control"/>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-4 pl-1">
+                                                    <div class="form-group">
+                                                        <label for="grupoMuscular">Grupo muscular</label>
+                                                        <h:selectOneMenu id="grupoMuscular"  value="#{beanModificar.grupoMuscular}" class="form-control">
+                                                            <f:selectItem itemLabel="Selecciona Grupo muscular" itemValue="" />
+                                                            <f:selectItem itemLabel="Pectoral" itemValue="pectoral" />
+                                                            <f:selectItem itemLabel="Espalda" itemValue="espalda" />
+                                                            <f:selectItem itemLabel="Brazos" itemValue="brazos" />
+                                                            <f:selectItem itemLabel="Hombros" itemValue="hombros" />
+                                                            <f:selectItem itemLabel="Piernas" itemValue="piernas" />
+                                                            <f:selectItem itemLabel="Gluteos" itemValue="gluteos" />
+                                                            <f:selectItem itemLabel="Abdominales" itemValue="abdominales" />
+                                                        </h:selectOneMenu>
+                                                    </div>
+                                                </div> 
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-3 offset-md-1 align-items-center d-flex">
+                                                    <div class="form-group">
+                                                        <p:graphicImage value="imagenes/ejercicios/#{beanModificar.ejercicioSel.foto}"/>
+                                                        <label for="img">Pulse aquí para subir foto</label>
+                                                        <p:fileUpload value="#{beanModificar.fotoEjer}" id="img" mode="simple"/>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                            <div class="row">
+                                                <div class="update ml-auto mr-auto">
+                                                    <h:commandButton value="Modificar Ejercicio" class="btn btn-primary btn-round" actionListener="#{beanModificar.modificarEjercicio()}"/>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </h:form> 
+
+
+
+                            <h:form rendered="#{beanModificar.tablaAModificar eq 'tarifa'}">
+                                <div class="col-md-10 offset-md-1">
+                                    <div class="card card-user">
+                                        <div class="card-header">
+                                            <h5 class="card-title">Modificar Tarifa</h5>
+                                        </div>
+                                        <div class="card-body">
+                                            <div class="row">
+                                                <div class="col-md-4 px-1">
+                                                    <div class="form-group">
+                                                        <label for="nombreTarifa">Nombre Tarifa</label>
+                                                        <h:inputText id="nombreTarifa" pt:placeholder="#{beanModificar.tarifaSel.nombreTarifa}" value="#{beanModificar.nombreTarifa}" class="form-control"/>                                                     </div>
+                                                </div>
+                                                <div class="col-md-4 pl-1">
+                                                    <div class="form-group">
+                                                        <label for="meses">Meses</label>
+                                                        <h:inputText id="meses" pt:placeholder="#{beanModificar.tarifaSel.meses}" value="#{beanModificar.meses}" class="form-control"/>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-4 pl-1">
+                                                    <div class="form-group">
+                                                        <label for="precio">Precio</label>
+                                                        <h:inputText id="precio" pt:placeholder="#{beanModificar.tarifaSel.precio}" value="#{beanModificar.precio}" class="form-control"/>
+                                                    </div>
+                                                </div> 
+                                            </div>                                           
+                                            <div class="row">
+                                                <div class="update ml-auto mr-auto">
+                                                    <h:commandButton value="Modificar Tarifa" class="btn btn-primary btn-round" actionListener="#{beanModificar.modificarTarifa()}"/>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </h:form>                              
+
+                            <h:form enctype="multipart/form-data" rendered="#{beanModificar.tablaAModificar eq 'sala'}">
+                                <div class="col-md-10 offset-md-1">
+                                    <div class="card card-user">
+                                        <div class="card-header">
+                                            <h5 class="card-title">Modificar Sala</h5>
+                                        </div>
+                                        <div class="card-body">
+                                            <div class="row">
+                                                <div class="col-md-4 px-1">
+                                                    <div class="form-group">
+                                                        <label for="nombreSala">Nombre Sala</label>
+                                                        <h:inputText id="nombreSala" pt:placeholder="#{beanModificar.salaSel.nombre}" value="#{beanModificar.nombreSala}" class="form-control"/>                                                     </div>
+                                                </div>
+                                                <div class="col-md-4 pl-1">
+                                                    <div class="form-group">
+                                                        <label for="capacidad">Capacidad</label>
+                                                        <h:inputText id="capacidad" pt:placeholder="#{beanModificar.salaSel.capacidad}" value="#{beanModificar.capacidad}" class="form-control"/>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-4 pl-1">
+                                                    <div class="form-group">
+                                                        <label for="descripcionSala">Descripcion</label>
+                                                        <h:inputText id="descripcionSala" pt:placeholder="#{beanModificar.salaSel.descripcion}" value="#{beanModificar.descripcionSala}" class="form-control"/>
+                                                    </div>
+                                                </div> 
+                                            </div>
+
+
+
+                                            <div class="row">
+
+                                                <div class="col-md-3 offset-md-1 align-items-center d-flex">
+                                                    <div class="form-group">
+                                                        <p:graphicImage value="imagenes/clases/#{beanModificar.salaSel.imagen}"/>
+                                                        <label for="imgSala">Pulse aquí para subir foto</label>
+                                                        <p:fileUpload value="#{beanModificar.imgSala}" id="imgSala" mode="simple"/>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="update ml-auto mr-auto">
+                                                    <h:commandButton value="Modificar Sala" class="btn btn-primary btn-round" actionListener="#{beanModificar.modificarSala()}"/>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </h:form>
+
+
+
+
+                            <h:form rendered="#{beanModificar.tablaAModificar eq 'reserva'}">
+                                <div class="col-md-10 offset-md-1">
+                                    <div class="card card-user">
+                                        <div class="card-header">
+                                            <h5 class="card-title">Modificar Reserva</h5>
+                                        </div>
+                                        <div class="card-body">
+                                            <div class="row">
+                                                <div class="col-md-4 px-1">
+                                                    <div class="form-group">
+                                                        <label for="fecha">Fecha</label>
+                                                        <h:inputText id="fecha" pt:type="date" pt:placeholder="#{beanModificar.reservaSel.fecha}" value="#{beanModificar.fechaReserva}" class="form-control"/>                                                     </div>
+                                                </div>
+                                                <div class="col-md-4 pl-1">
+                                                    <div class="form-group">
+                                                        <label for="horita">Hora</label>
+
+                                                        <h:selectOneMenu id="horita"  value="#{beanModificar.hora}" class="form-control">
+                                                            <f:selectItem itemValue="10" itemLabel="10:00 h"/>
+                                                            <f:selectItem itemValue="11" itemLabel="11:00 h"/>
+                                                            <f:selectItem itemValue="12" itemLabel="12:00 h"/>
+                                                            <f:selectItem itemValue="13" itemLabel="13:00 h"/>
+                                                            <f:selectItem itemValue="14" itemLabel="14:00 h"/>
+                                                            <f:selectItem itemValue="17" itemLabel="17:00 h"/>
+                                                            <f:selectItem itemValue="18" itemLabel="18:00 h"/>
+                                                            <f:selectItem itemValue="19" itemLabel="19:00 h"/>
+                                                            <f:selectItem itemValue="20" itemLabel="20:00 h"/>
+                                                            <f:selectItem itemValue="21" itemLabel="21:00 h"/>
+
+                                                        </h:selectOneMenu>  
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-4 pl-1">
+                                                    <div class="form-group">
+                                                        <label for="usuarioSala">Usuario</label>
+                                                        <h:selectOneMenu id="usuarioSala"  value="#{beanModificar.nombreUsuarioReserva}" class="form-control">
+                                                            <f:selectItems value="#{beanModificar.listaClientes}" var="indice" itemValue="#{indice.nombreUsuario}" itemLabel="#{indice.nombreUsuario}"/>
+                                                        </h:selectOneMenu>
+                                                    </div>
+                                                </div> 
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-4 pl-1">
+                                                    <div class="form-group">
+                                                        <label for="salaReserva">Sala</label>
+                                                        <h:selectOneMenu id="salaReserva"  value="#{beanModificar.codSalaReserva}" class="form-control">
+                                                            <f:selectItems value="#{beanModificar.listaSala}" var="ind" itemValue="#{ind.codigoSala}" itemLabel="#{ind.nombre}"/>
+                                                        </h:selectOneMenu>
+                                                    </div>
+                                                </div> 
+
+                                            </div>
+                                            <div class="row">
+                                                <div class="update ml-auto mr-auto">
+                                                    <h:commandButton value="Modificar Reserva" class="btn btn-primary btn-round" actionListener="#{beanModificar.modificarReserva()}"/>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </h:form>
+
+
+
+
+
+                            <h:form rendered="#{beanModificar.tablaAModificar eq 'rutina'}">
+                                <div class="col-md-10 offset-md-1">
+                                    <div class="card card-user">
+                                        <div class="card-header">
+                                            <h5 class="card-title">Modificar Rutina</h5>
+                                        </div>
+                                        <div class="card-body">
+                                            <div class="row">
+                                                <div class="col-md-4 px-1">
+                                                    <div class="form-group">
+
+                                                        <label for="diaRutina">Dia Rutina</label>
+                                                        <h:selectOneMenu id="diaRutina" value="#{beanModificar.diaRutina}" class="form-control">
+                                                            <f:selectItem itemLabel="Selecciona un dia" itemValue="" />
+                                                            <f:selectItem itemLabel="Lunes" itemValue="lunes" />
+                                                            <f:selectItem itemLabel="Martes" itemValue="martes" />
+                                                            <f:selectItem itemLabel="Miercoles" itemValue="miercoles" />
+                                                            <f:selectItem itemLabel="Jueves" itemValue="jueves" />
+                                                            <f:selectItem itemLabel="Viernes" itemValue="viernes" />
+                                                        </h:selectOneMenu>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-4 pl-1">
+                                                    <div class="form-group">
+                                                        <label for="nombreUsuRutina">Nombre Usuario</label>
+                                                        <h:selectOneMenu id="nombreUsuRutina"  value="#{beanModificar.nombreUsuarioRutina}" class="form-control">
+                                                            <f:selectItems value="#{beanModificar.listaClientes}" var="i" itemValue="#{i.nombreUsuario}" itemLabel="#{i.nombreUsuario}"/>
+                                                        </h:selectOneMenu>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-4 pl-1">
+                                                    <div class="form-group">
+                                                        <label for="repeticiones">Repeticiones</label>
+                                                        <h:inputText id="repeticiones" pt:placeholder="#{beanModificar.rutinaSel.repeticiones}" value="#{beanModificar.repeticionesRutina}" class="form-control"/>
+                                                    </div>
+
+                                                </div> 
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-4 pl-1">
+                                                    <div class="form-group">
+                                                        <label for="ejercicioRutina">Ejercicio</label>
+                                                        <h:selectOneMenu id="ejercicioRutina"  value="#{beanModificar.codEjercicioRutina}" class="form-control">
+                                                            <f:selectItems value="#{beanModificar.listaEjercicio}" var="in" itemValue="#{in.codEjercicio}" itemLabel="#{in.nombreEjercicio} "/>
+                                                        </h:selectOneMenu>
+                                                    </div>
+                                                </div>
+                                                                                                  
+                                            </div>
+
+    
+                                            <div class="row">
+                                                <div class="update ml-auto mr-auto">
+                                                    <h:commandButton value="Modificar Rutina" class="btn btn-primary btn-round" actionListener="#{beanModificar.modificarRutina()}"/>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </h:form>      
+
+
+
+
+
+                            <h:form rendered="#{beanModificar.tablaAModificar eq 'dieta'}">
+                                <div class="col-md-10 offset-md-1">
+                                    <div class="card card-user">
+                                        <div class="card-header">
+                                            <h5 class="card-title">modificar Dieta</h5>
+                                        </div>
+                                        <div class="card-body">
+                                            <div class="row">
+                                                <div class="col-md-4 px-1">
+                                                    <div class="form-group">
+
+                                                        <label for="diaDieta">Dia Dietas</label>
+                                                        <h:selectOneMenu id="diaRutina" value="#{beanModificar.diaDieta}" class="form-control">
+                                                            <f:selectItem itemLabel="Selecciona un dia" itemValue="" />
+                                                            <f:selectItem itemLabel="Lunes" itemValue="lunes" />
+                                                            <f:selectItem itemLabel="Martes" itemValue="martes" />
+                                                            <f:selectItem itemLabel="Miercoles" itemValue="miercoles" />
+                                                            <f:selectItem itemLabel="Jueves" itemValue="jueves" />
+                                                            <f:selectItem itemLabel="Viernes" itemValue="viernes" />
+                                                        </h:selectOneMenu>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-4 pl-1">
+                                                    <div class="form-group">
+                                                        <label for="nombreUsuDieta">Nombre Usuario</label>
+                                                        <h:selectOneMenu id="nombreUsuDieta"  value="#{beanModificar.nombreUsuarioDieta}" class="form-control">
+                                                            <f:selectItems value="#{beanInsertar.listaClientes}" var="ili" itemValue="#{ili.nombreUsuario}" itemLabel="#{ili.nombreUsuario}"/>
+                                                        </h:selectOneMenu>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-4 pl-1">
+                                                    <div class="form-group">
+                                                        <label for="comidaDieta">nombre Comida</label>
+                                                        <h:selectOneMenu id="comidaDieta"  value="#{beanModificar.codigoComidaDieta}" class="form-control">
+                                                            <f:selectItems value="#{beanInsertar.listaComidas}" var="ip" itemValue="#{ip.codComida}" itemLabel="#{ip.nombreComida}-(#{ip.tipoComida})"/>
+                                                        </h:selectOneMenu>
+                                                    </div>
+
+                                                </div> 
+                                            </div>
+
+                                            <div class="row">
+                                                <div class="update ml-auto mr-auto">
+                                                    <h:commandButton value="Crear Rutina" class="btn btn-primary btn-round" actionListener="#{beanModificar.modificarDieta()}"/>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </h:form>      
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                        </div>
+                    </div>
+
+
+
+
+
+
+
+                </div>
+
+            </div>
+        </div>       
+
+
+
+        <script src="js/core/jquery.min.js"></script>
+        <script src="js/core/popper.min.js"></script>
+        <script src="js/core/bootstrap.min.js"></script>
+        <script src="js/plugins/perfect-scrollbar.jquery.min.js"></script>
+        <!--  Google Maps Plugin    -->
+        <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_KEY_HERE"></script>
+        <!-- Chart JS -->
+        <script src="js/plugins/chartjs.min.js"></script>
+        <!--  Notifications Plugin    -->
+        <script src="js/plugins/bootstrap-notify.js"></script>
+        <!-- Control Center for Now Ui Dashboard: parallax effects, scripts for the example pages etc -->
+        <script src="js/paper-dashboard.min.js?v=2.0.0" type="text/javascript"></script>
+        <!-- Paper Dashboard DEMO methods, don't include it in your project! -->
+        <script src="js/demo.js"></script>        
+    </h:body>
+</html>
+

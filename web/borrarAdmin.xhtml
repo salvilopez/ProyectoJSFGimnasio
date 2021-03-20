@@ -1,0 +1,835 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+    <h:head>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2.0, minimum-scale=1.0,  user-scalable=yes"/>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+        <title>HealthyGym-Aministrador</title>
+        <link href="css/bootstrap.min.css" rel="stylesheet" media="screen"/>
+        <link href="css/adminPanel/estilo.css" rel="stylesheet"/>
+        <h:outputScript  name="js/popper.min.js"></h:outputScript>
+        <h:outputScript  name="js/bootstrap.min.js"></h:outputScript>
+        <h:outputScript library="primefaces" name="jquery/jquery.js"/>
+        <h:outputScript library="primefaces" name="jquery/jquery-plugins.js"/>
+        <meta charset="utf-8" />
+        <link rel="apple-touch-icon" sizes="76x76" href="../assets/img/apple-icon.png"/>
+        <!-- <link rel="icon" type="image/png" href="../assets/img/favicon.png">-->
+
+        <!--     Fonts and icons     -->
+        <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700,200" rel="stylesheet" />
+        <link href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css" rel="stylesheet"/>
+        <!-- CSS Files -->
+        <link href="css/bootstrap.min.css" rel="stylesheet" />
+        <link href="css/paper-dashboard.css?v=2.0.0" rel="stylesheet" />
+        <!-- CSS Just for demo purpose, don't include it in your project -->
+        <link href="css/adminPanel/demo.css" rel="stylesheet" />
+        <script>
+            $(document).ready(function () {
+                (function ($) {
+
+                    $('#filtrar').keyup(function () {
+
+                        var rex = new RegExp($(this).val(), 'i');
+                        $('.buscar tr').hide();
+                        $('.buscar tr').filter(function () {
+                            return rex.test($(this).text());
+                        }).show();
+
+                    })
+
+                }(jQuery));
+
+            });
+
+
+
+
+        </script>
+    </h:head>
+    <h:body>
+        <div class=" container-fluid">
+            <div class="sidebar" data-color="white" >
+                <!--
+                  Tip 1: You can change the color of the sidebar using: data-color="blue | green | orange | red | yellow"
+                -->
+                <div class="logo fondoAguamarina">
+
+                    <div class="logo-normal fondoAguamarina">
+
+                        <div class="logo-image-big fondoAguamarina">
+                            <img src="imagenes/clientes/USERDEFAULT.png" class="avatar tamanioP"/>
+                             #{bSesion.clienteLogeado.nombreUsuario}
+
+                        </div> 
+                    </div>
+                </div>
+                <div class="sidebar-wrapper" id="menu">
+                    <ul class="nav">
+                        <li>
+                            <a href="insertarAdmin.xhtml">
+                                <i class="nc-icon nc-simple-add"></i>
+                                <p>INSERTAR REGISTRO</p>
+                            </a>
+                        </li>
+                        <li class="btn-marcado">
+                            <a href="borrarAdmin.xhtml">
+                                <i class="nc-icon nc-simple-delete"></i>
+                                <p>ELIMINAR REGISTRO</p>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="modificarAdmin.xhtml">
+                                <i class="nc-icon nc-refresh-69"></i>
+                                <p>MODIFICAR REGISTRO</p>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="faces/index.xhtml">
+                                <i class="nc-icon nc-world-2"></i>
+                                <p>VISITAR WEB</p>
+                            </a>
+                        </li>
+                        <li class="active ">
+                            <a href="./user.html">
+                                <i class="nc-icon nc-chart-bar-32"></i>
+                                <p>VER GRAFICAS</p>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="desconectarSesion">
+                                <i class="nc-icon nc-button-power"></i>
+                                <p>DESCONECTAR</p>
+                            </a>
+                        </li>
+
+
+                    </ul>
+                </div>
+            </div>
+            <div class="main-panel">
+                <!-- Navbar -->
+                <nav class="navbar navbar-expand-lg navbar-absolute fixed-top navbar-transparent">
+                    <div class="container-fluid">
+                        <div class="navbar-wrapper">
+                            <div class="navbar-toggle">
+                                <button type="button" class="navbar-toggler">
+                                    <span class="navbar-toggler-bar bar1"></span>
+                                    <span class="navbar-toggler-bar bar2"></span>
+                                    <span class="navbar-toggler-bar bar3"></span>
+                                </button>
+                            </div>
+                            <a class="navbar-brand">Panel de administracion-Eliminar Registro</a>
+                        </div>
+
+
+                    </div>
+                </nav>
+                <!-- End Navbar -->
+
+                <div class="content">
+                    <div class="row">
+                        <div  class="col-10 offset-1">
+                            <h:form>
+                                <h:outputLabel for="tabla" value="Seleccione la tabla" />
+                                <h:selectOneMenu id="tabla" value="#{beanInsertar.tablaSel}" onchange="submit()">
+                                       <f:selectItem itemLabel="Seleccione tabla" itemValue="" />
+                                    <f:selectItem itemLabel="Blog" itemValue="blog" />
+                                    <f:selectItem itemLabel="Cliente" itemValue="cliente" />
+                                    <f:selectItem itemLabel="Comida" itemValue="comida" />
+                                    <f:selectItem itemLabel="Rutina" itemValue="rutina" />
+                                    <f:selectItem itemLabel="Ejercicio" itemValue="ejercicio" />
+                                    <f:selectItem itemLabel="Reserva" itemValue="reserva" />
+                                    <f:selectItem itemLabel="Sala" itemValue="sala" />
+                                    <f:selectItem itemLabel="Tarifa" itemValue="tarifa" />
+                                    <f:selectItem itemLabel="Dieta" itemValue="dieta" />
+                                </h:selectOneMenu>
+                            </h:form>
+
+                        </div>
+
+                    </div> 
+                    <div class="row">
+
+                        <ui:fragment rendered="#{beanInsertar.tablaSel eq 'cliente'}">
+                            <div  class="col-12">
+
+
+                                <div class="row mt-3">
+                                    <div class="col-sm-3">
+                                        <input type="text" name="buscador" id="filtrar" class="widthi"/>
+                                    </div>
+
+                                </div>
+                                <div class="row mt-5">
+                                    <div class="col-auto ">
+                                        <table border="2" class="table table-responsive table-bordered table-hover table-striped tablesep text-center">
+                                            <thead class="thead-light">
+                                                <tr class="text-center">
+                                                    <th>Nombre</th>
+                                                    <th>Apellidos</th>
+                                                    <th>Nombre Usuario</th>
+                                                    <th>Contraseña</th>
+                                                    <th>Email</th>
+                                                    <th>Fecha Nacimiento</th>
+                                                    <th>Dirección</th>
+                                                    <th>Telefono</th>
+                                                    <th>tipo</th>
+                                                    <th>Fecha Registro</th>
+                                                    <th>Fecha Validez</th>
+                                                    <th>Peso</th>
+                                                    <th>Objetivo</th>
+                                                    <th>Observaciones Salud</th>
+                                                    <th>Foto</th>
+                                                    <th></th>
+                                                </tr>
+                                            </thead>
+                                            <tbody class="buscar">
+                                                <ui:repeat value="#{beanBorrar.listaClientes}" var="item">
+                                                    <tr>
+                                                        <td>#{item.nombre}</td>
+                                                        <td>#{item.apellidos}</td>
+                                                        <td>#{item.nombreUsuario}</td>
+                                                        <td>#{item.pass}</td>
+                                                        <td>#{item.email}</td>
+                                                        <td>#{item.fechaNacimiento}</td>
+                                                        <td>#{item.direccion}</td>
+                                                        <td>#{item.telefono}</td>
+                                                        <td>#{item.tipo}</td>
+                                                        <td>#{item.fechaRegistro}</td>
+                                                        <td>#{item.fechaValidez}</td>
+                                                        <td>#{item.peso}</td>
+                                                        <td>#{item.objetivo}</td>
+                                                        <td>#{item.observacionesSalud}</td>
+                                                        <td><img src="imagenes/clientes/#{item.foto}" width="100" height="100"/></td>
+                                                        <td class=" w-auto">
+                                                            <form action="borrarTabla">
+                                                                <input type="submit" value="Borrar" class="btn btn-primary"/>
+                                                                <input type="hidden" name="nombreUsuario" value="#{item.nombreUsuario}"/>
+                                                                <input type="hidden" name="tabla" value="#{beanInsertar.tablaSel}"/>
+                                                            </form>
+
+                                                        </td>
+
+
+
+                                                    </tr>
+
+                                                </ui:repeat>
+
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </ui:fragment>
+
+                        <ui:fragment rendered="#{beanInsertar.tablaSel eq 'blog'}">
+                            <div  class="col-12">
+
+
+                                <div class="row mt-3">
+                                    <div class="col-sm-3">
+                                        <input type="text" name="buscador" id="filtrar" class="widthi"/>
+                                    </div>
+
+                                </div>
+                                <div class="row mt-5">
+                                    <div class="col-auto ">
+                                        <table border="2" class="table table-responsive table-bordered table-hover table-striped tablesep text-center">
+                                            <thead class="thead-light">
+                                                <tr class="text-center">
+                                                    <th>Codigo Blog</th>
+                                                    <th>Titulo Blog</th>
+                                                    <th>Descripcion</th>
+                                                    <th>Video</th>
+
+                                                    <th></th>
+                                                </tr>
+                                            </thead>
+                                            <tbody class="buscar">
+                                                <ui:repeat value="#{beanBorrar.listaBlog}" var="item">
+                                                    <tr>
+                                                        <td>#{item.codNoticia}</td>
+                                                        <td>#{item.tituloNoticia}</td>
+                                                        <td>#{item.descripcion}</td>
+                                                        <td><iframe width="200" height="150" src="#{item.video}"/></td>
+
+                                                        <td class=" w-auto">
+                                                            <form action="borrarTabla">
+                                                                <input type="submit" value="Borrar" class="btn btn-primary"/>
+                                                                <input type="hidden" name="codBlog" value="#{item.codNoticia}"/>
+                                                                <input type="hidden" name="tabla" value="#{beanInsertar.tablaSel}"/>
+                                                            </form>
+
+                                                        </td>
+
+
+
+                                                    </tr>
+
+                                                </ui:repeat>
+
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </ui:fragment>      
+                        <ui:fragment rendered="#{beanInsertar.tablaSel eq 'comida'}">
+                            <div  class="col-12">
+
+
+                                <div class="row mt-3">
+                                    <div class="col-sm-3">
+                                        <input type="text" name="buscador" id="filtrar" class="widthi"/>
+                                    </div>
+
+                                </div>
+                                <div class="row mt-5">
+                                    <div class="col-auto ">
+                                        <table border="2" class="table table-responsive table-bordered table-hover table-striped tablesep text-center">
+                                            <thead class="thead-light">
+                                                <tr class="text-center">
+                                                    <th>Codigo comida</th>
+                                                    <th>Nombre comida</th>
+                                                    <th>receta</th>          
+
+                                                    <th>Cantidad</th>
+                                                    <th>Tipo Comida</th>
+                                                    <th>Foto</th>
+                                                    <th></th>
+                                                </tr>
+                                            </thead>
+                                            <tbody class="buscar">
+                                                <ui:repeat value="#{beanBorrar.listaComidas}" var="item">
+                                                    <tr>
+                                                        <td>#{item.codComida}</td>
+                                                        <td>#{item.nombreComida}</td>
+                                                        <td>#{item.receta}</td>
+                                                        <td>#{item.cantidad}</td>
+                                                        <td>#{item.tipoComida}</td>
+
+
+                                                        <td><img src="imagenes/alimentos/#{item.fotoComida}" width="100" height="100"/></td>
+                                                        <td class=" w-auto">
+                                                            <form action="borrarTabla">
+                                                                <input type="submit" value="Borrar" class="btn btn-primary"/>
+                                                                <input type="hidden" name="codComida" value="#{item.codComida}"/>
+                                                                <input type="hidden" name="tabla" value="#{beanInsertar.tablaSel}"/>
+                                                            </form>
+
+                                                        </td>
+
+
+
+                                                    </tr>
+
+                                                </ui:repeat>
+
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </ui:fragment>                                                
+
+
+
+
+
+
+
+                        <ui:fragment rendered="#{beanInsertar.tablaSel eq 'ejercicio'}">
+                            <div  class="col-12">
+
+
+                                <div class="row mt-3">
+                                    <div class="col-sm-3">
+                                        <input type="text" name="buscador" id="filtrar" class="widthi"/>
+                                    </div>
+
+                                </div>
+                                <div class="row mt-5">
+                                    <div class="col-auto ">
+                                        <table border="2" class="table table-responsive table-bordered table-hover table-striped tablesep text-center">
+                                            <thead class="thead-light">
+                                                <tr class="text-center">
+                                              <th>Codigo ejercicio</th>
+                                                    <th>Nombre ejercicio</th>
+                                                    <th>Grupo</th>
+                                                    <th>Foto</th>
+                                                    <th>Video</th>          
+                                                    
+                                                    
+
+                                                    <th></th>
+                                                </tr>
+                                            </thead>
+                                            <tbody class="buscar">
+                                                <ui:repeat value="#{beanBorrar.listaEjercicio}" var="item">
+                                                    <tr>
+                                                        <td>#{item.codEjercicio}</td>
+                                                        <td>#{item.nombreEjercicio}</td>
+                                                        <td>#{item.grupo}</td>
+                                                        <td><img src="imagenes/ejercicios/#{item.foto}" width="100" height="100"/></td>
+                                                        <td><iframe width="200" height="150" src="#{item.video}"/></td>
+
+
+                                                        <td class=" w-auto">
+                                                            <form action="borrarTabla">
+                                                                <input type="submit" value="Borrar" class="btn btn-primary"/>
+                                                                <input type="hidden" name="codEjercicio" value="#{item.codEjercicio}"/>
+                                                                <input type="hidden" name="tabla" value="#{beanInsertar.tablaSel}"/>
+                                                            </form>
+
+                                                        </td>
+
+
+
+                                                    </tr>
+
+                                                </ui:repeat>
+
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </ui:fragment>    
+
+
+
+
+
+
+
+
+                        <ui:fragment rendered="#{beanInsertar.tablaSel eq 'tarifa'}">
+                            <div  class="col-12">
+
+
+                                <div class="row mt-3">
+                                    <div class="col-sm-3">
+                                        <input type="text" name="buscador" id="filtrar" class="widthi"/>
+                                    </div>
+
+                                </div>
+                                <div class="row mt-5">
+                                    <div class="col-auto ">
+                                        <table border="2" class="table table-responsive table-bordered table-hover table-striped tablesep text-center">
+                                            <thead class="thead-light">
+                                                <tr class="text-center">
+                                                    <th>Codigo tarifa</th>
+                                                    <th>Nombre tarifa</th>
+                                                    <th>meses</th>          
+                                                    <th>precio</th>
+
+
+                                                    <th></th>
+                                                </tr>
+                                            </thead>
+                                            <tbody class="buscar">
+                                                <ui:repeat value="#{beanBorrar.listaTarifas}" var="item">
+                                                    <tr>
+                                                        <td>#{item.codTarifa}</td>
+                                                        <td>#{item.nombreTarifa}</td>
+                                                        <td>#{item.meses}</td>
+                                                        <td>#{item.precio}</td>
+                                                        <td class=" w-auto">
+                                                            <form action="borrarTabla">
+                                                                <input type="submit" value="Borrar" class="btn btn-primary"/>
+                                                                <input type="hidden" name="codTarifa" value="#{item.codTarifa}"/>
+                                                                <input type="hidden" name="tabla" value="#{beanInsertar.tablaSel}"/>
+                                                            </form>
+
+                                                        </td>
+
+
+
+                                                    </tr>
+
+                                                </ui:repeat>
+
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </ui:fragment>  
+
+                        <ui:fragment rendered="#{beanInsertar.tablaSel eq 'sala'}">
+                            <div  class="col-12">
+
+
+                                <div class="row mt-3">
+                                    <div class="col-sm-3">
+                                        <input type="text" name="buscador" id="filtrar" class="widthi"/>
+                                    </div>
+
+                                </div>
+                                <div class="row mt-5">
+                                    <div class="col-auto ">
+                                        <table border="2" class="table table-responsive table-bordered table-hover table-striped tablesep text-center">
+                                            <thead class="thead-light">
+                                                <tr class="text-center">
+                                                    <th>Codigo sala</th>
+                                                    <th>Nombre</th>
+                                                    <th>Capacidad</th>          
+                                                    <th>descripcion</th>
+                                                    <th>imagen</th>
+
+                                                    <th></th>
+                                                </tr>
+                                            </thead>
+                                            <tbody class="buscar">
+                                                <ui:repeat value="#{beanBorrar.listaSala}" var="item">
+                                                    <tr>
+                                                        <td>#{item.codigoSala}</td>
+                                                        <td>#{item.nombre}</td>
+                                                        <td>#{item.capacidad}</td>
+                                                        <td>#{item.descripcion}</td>
+                                                        <td><img src="imagenes/clases/#{item.imagen}" width="100" height="100"/></td>
+                                                        <td class=" w-auto">
+                                                            <form action="borrarTabla">
+                                                                <input type="submit" value="Borrar" class="btn btn-primary"/>
+                                                                <input type="hidden" name="codigoSala" value="#{item.codigoSala}"/>
+                                                                <input type="hidden" name="tabla" value="#{beanInsertar.tablaSel}"/>
+                                                            </form>
+
+                                                        </td>
+
+
+
+                                                    </tr>
+
+                                                </ui:repeat>
+
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </ui:fragment>  
+
+
+                        <ui:fragment rendered="#{beanInsertar.tablaSel eq 'reserva'}">
+                            <div  class="col-12">
+
+
+                                <div class="row mt-3">
+                                    <div class="col-sm-3">
+                                        <input type="text" name="buscador" id="filtrar" class="widthi"/>
+                                    </div>
+
+                                </div>
+                                <div class="row mt-5">
+                                    <div class="col-auto ">
+                                        <table border="2" class="table table-responsive table-bordered table-hover table-striped tablesep text-center">
+                                            <thead class="thead-light">
+                                                <tr class="text-center">
+                                                    <th>Codigo cita</th>
+                                                    <th>Fecha</th>
+                                                    <th>Hora</th>          
+                                                    <th>CodSala</th>
+                                                    <th>Nombre Usuario</th>
+
+                                                    <th></th>
+                                                </tr>
+                                            </thead>
+                                            <tbody class="buscar">
+                                                <ui:repeat value="#{beanBorrar.listaReservas}" var="item">
+                                                    <tr>
+                                                        <td>#{item.codCita}</td>
+                                                        <td>#{item.fecha}</td>
+                                                        <td>#{item.hora}</td>
+                                                        <td>#{item.codSala.nombre}</td>
+                                                        <td>#{item.nombreUsuario.nombreUsuario}</td>
+
+                                                        <td class=" w-auto">
+                                                            <form action="borrarTabla">
+                                                                <input type="submit" value="Borrar" class="btn btn-primary"/>
+                                                                <input type="hidden" name="codCita" value="#{item.codCita}"/>
+                                                                <input type="hidden" name="tabla" value="#{beanInsertar.tablaSel}"/>
+                                                            </form>
+
+                                                        </td>
+
+
+
+                                                    </tr>
+
+                                                </ui:repeat>
+
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </ui:fragment>
+
+
+
+
+
+                        <ui:fragment rendered="#{beanInsertar.tablaSel eq 'rutina'}">
+                            <div  class="col-12">
+
+
+                                <div class="row mt-3">
+                                    <div class="col-sm-3">
+                                        <input type="text" name="buscador" id="filtrar" class="widthi"/>
+                                    </div>
+
+                                </div>
+                                <div class="row mt-5">
+                                    <div class="col-auto ">
+                                        <table border="2" class="table table-responsive table-bordered table-hover table-striped tablesep text-center">
+                                            <thead class="thead-light">
+                                                <tr class="text-center">
+                                                    <th>Codigo Rutina</th>
+                                                    <th>Nombre Ejercicio</th>
+                                                    <th>repeticiones</th>          
+                                                   
+                                                    <th>dia</th>
+                                                    <th>nombreUsuario</th>
+                                                    <th></th>
+                                                </tr>
+                                            </thead>
+                                            <tbody class="buscar">
+                                                <ui:repeat value="#{beanBorrar.listaRutina}" var="item">
+                                                    <tr>
+                                                        <td>#{item.codRutina}</td>
+                                                        <td>#{item.ejercicio.nombreEjercicio}</td>
+                                                        <td>#{item.repeticiones}</td>
+                                                        <td>#{item.dia}</td>
+                                                        <td>#{item.nombreUsuario.nombreUsuario}</td>
+
+                                                        <td class=" w-auto">
+                                                            <form action="borrarTabla">
+                                                                <input type="submit" value="Borrar" class="btn btn-primary"/>
+                                                                <input type="hidden" name="codRutina" value="#{item.codRutina}"/>
+                                                                <input type="hidden" name="tabla" value="#{beanInsertar.tablaSel}"/>
+                                                            </form>
+
+                                                        </td>
+
+
+
+                                                    </tr>
+
+                                                </ui:repeat>
+
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </ui:fragment>
+
+                        <ui:fragment rendered="#{beanInsertar.tablaSel eq 'dieta'}">
+                            <div  class="col-12">
+
+
+                                <div class="row mt-3">
+                                    <div class="col-sm-3">
+                                        <input type="text" name="buscador" id="filtrar" class="widthi"/>
+                                    </div>
+
+                                </div>
+                                <div class="row mt-5">
+                                    <div class="col-auto ">
+                                        <table border="2" class="table table-responsive table-bordered table-hover table-striped tablesep text-center">
+                                            <thead class="thead-light">
+                                                <tr class="text-center">
+                                                    <th>Codigo Dieta</th>
+                                                    <th>Dia</th>
+                                                    <th>Comida</th>          
+                                                    <th>nombreUsuario</th>
+                                                    <th></th>
+                                                </tr>
+                                            </thead>
+                                            <tbody class="buscar">
+                                                <ui:repeat value="#{beanBorrar.listaDieta}" var="item">
+                                                    <tr>
+                                                        <td>#{item.codDieta}</td>
+                                                        <td>#{item.dia}</td>
+                                                        <td>#{item.codComida.nombreComida}</td>
+                                                        <td>#{item.nombreUsuario.nombreUsuario}</td>
+
+                                                        <td class=" w-auto">
+                                                            <form action="borrarTabla">
+                                                                <input type="submit" value="Borrar" class="btn btn-primary"/>
+                                                                <input type="hidden" name="codDieta" value="#{item.codDieta}"/>
+                                                                <input type="hidden" name="tabla" value="#{beanInsertar.tablaSel}"/>
+                                                            </form>
+
+                                                        </td>
+
+
+
+                                                    </tr>
+
+                                                </ui:repeat>
+
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </ui:fragment>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                    </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                </div>
+
+            </div>
+        </div>       
+
+
+
+        <script src="js/core/jquery.min.js"></script>
+        <script src="js/core/popper.min.js"></script>
+        <script src="js/core/bootstrap.min.js"></script>
+        <script src="js/plugins/perfect-scrollbar.jquery.min.js"></script>
+        <!--  Google Maps Plugin    -->
+        <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_KEY_HERE"></script>
+        <!-- Chart JS -->
+        <script src="js/plugins/chartjs.min.js"></script>
+        <!--  Notifications Plugin    -->
+        <script src="js/plugins/bootstrap-notify.js"></script>
+        <!-- Control Center for Now Ui Dashboard: parallax effects, scripts for the example pages etc -->
+        <script src="js/paper-dashboard.min.js?v=2.0.0" type="text/javascript"></script>
+        <!-- Paper Dashboard DEMO methods, don't include it in your project! -->
+        <script src="js/demo.js"></script>        
+    </h:body>
+</html>
+
